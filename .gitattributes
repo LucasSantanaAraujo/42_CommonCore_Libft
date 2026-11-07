@@ -1,0 +1,7 @@
+# Normalise all text files to LF in the repository, whatever the editor writes.
+* text=auto eol=lf
+
+# Binaries: never touch.
+*.o   binary
+*.a   binary
+*.exe binary

@@ -1,0 +1,12 @@
+{
+  "editor.insertSpaces": false,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.rulers": [80],
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "C_Cpp.default.includePath": ["${workspaceFolder}"],
+  "C_Cpp.default.cStandard": "c17",
+  "C_Cpp.default.compilerArgs": ["-Wall", "-Wextra", "-Werror"]
+}

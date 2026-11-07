@@ -1,0 +1,14 @@
+# Compilation output
+*.o
+*.a
+
+# Test binaries
+*.exe
+*.out
+teste
+tests/teste
+
+# Editor and OS clutter
+.DS_Store
+Thumbs.db
+*.swp
