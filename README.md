@@ -11,32 +11,32 @@ The project covers 43 functions, grouped in three parts.
 Reimplementations of functions that already exist in the standard library, matching
 the behaviour described in their manual pages.
 
-> Character classification: `ft_isalpha`, `ft_isdigit`, `ft_isalnum`, `ft_isascii`,
-> `ft_isprint`, `ft_toupper`, `ft_tolower`.
+Character classification: `ft_isalpha`, `ft_isdigit`, `ft_isalnum`, `ft_isascii`,
+`ft_isprint`, `ft_toupper`, `ft_tolower`.
 
-> Memory manipulation, operating on raw bytes without stopping at a null terminator:
-> `ft_memset`, `ft_bzero`, `ft_memcpy`, `ft_memmove`, `ft_memchr`, `ft_memcmp`,
-> `ft_calloc`.
+Memory manipulation, operating on raw bytes without stopping at a null terminator:
+`ft_memset`, `ft_bzero`, `ft_memcpy`, `ft_memmove`, `ft_memchr`, `ft_memcmp`,
+`ft_calloc`.
 
-> String manipulation, operating on null-terminated text: `ft_strlen`, `ft_strlcpy`,
-> `ft_strlcat`, `ft_strchr`, `ft_strrchr`, `ft_strncmp`, `ft_strnstr`, `ft_strdup`,
-> `ft_atoi`.
+String manipulation, operating on null-terminated text: `ft_strlen`, `ft_strlcpy`,
+`ft_strlcat`, `ft_strchr`, `ft_strrchr`, `ft_strncmp`, `ft_strnstr`, `ft_strdup`,
+`ft_atoi`.
 
 ### Part 2 — additional functions
 
 Functions that are not in the standard library but are useful enough that the
 curriculum requires them. Most of them allocate memory and return it to the caller.
 
-> `ft_substr`, `ft_strjoin`, `ft_strtrim`, `ft_split`, `ft_itoa`, `ft_strmapi`,
-> `ft_striteri`, `ft_putchar_fd`, `ft_putstr_fd`, `ft_putendl_fd`, `ft_putnbr_fd`.
+`ft_substr`, `ft_strjoin`, `ft_strtrim`, `ft_split`, `ft_itoa`, `ft_strmapi`,
+`ft_striteri`, `ft_putchar_fd`, `ft_putstr_fd`, `ft_putendl_fd`, `ft_putnbr_fd`.
 
 ### Part 3 — linked lists
 
 A singly linked list built on a `t_list` node holding a `void *` payload and a
 pointer to the next node.
 
-> `ft_lstnew`, `ft_lstadd_front`, `ft_lstsize`, `ft_lstlast`, `ft_lstadd_back`,
-> `ft_lstdelone`, `ft_lstclear`, `ft_lstiter`, `ft_lstmap`.
+`ft_lstnew`, `ft_lstadd_front`, `ft_lstsize`, `ft_lstlast`, `ft_lstadd_back`,
+`ft_lstdelone`, `ft_lstclear`, `ft_lstiter`, `ft_lstmap`.
 
 ## Instructions
 
