@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/08 01:46:50 by marvin            #+#    #+#              #
-#    Updated: 2026/11/08 01:47:00 by marvin           ###   ########.fr        #
+#    Updated: 2026/11/08 23:10:42 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ AR = ar rcs
 RM = rm -rf
 
 SRCS = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c \
-       ft_toupper.c ft_tolower.c ft_strlen.c
+       ft_toupper.c ft_tolower.c ft_strlen.c ft_memset.c ft_bzero.c \
+	   ft_memcpy.c ft_memmove.c ft_memchr.c ft_memcmp.c
 
 OBJS = $(SRCS:.c=.o)
 
