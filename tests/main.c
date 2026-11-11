@@ -6,14 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 01:47:04 by marvin            #+#    #+#             */
-/*   Updated: 2026/11/08 23:09:10 by marvin           ###   ########.fr       */
+/*   Updated: 2026/11/11 23:38:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "libft.h"
+#include "../libft.h"
 
 /* ========================= verification helpers ========================== */
 
@@ -75,6 +75,22 @@ static void	check_ptr(const char *name, const void *mine, const void *ref)
 		printf("OK    %-22s\n", name);
 	else
 		printf("FAIL  %-22s mine:%p libc:%p\n", name, mine, ref);
+}
+
+static void	check_str(const char *name, const char *mine, const char *ref)
+{
+	if (mine && ref && strcmp(mine, ref) == 0)
+		printf("OK    %-22s mine:\"%s\"\n", name, mine);
+	else
+		printf("FAIL  %-22s mine:\"%s\" expected:\"%s\"\n", name, mine, ref);
+}
+
+static void	check_num(const char *name, int mine, int ref)
+{
+	if (mine == ref)
+		printf("OK    %-22s mine:%-12d ref:%d\n", name, mine, ref);
+	else
+		printf("FAIL  %-22s mine:%-12d ref:%d\n", name, mine, ref);
 }
 
 /* ============================ part 1: ctype ============================== */
@@ -189,6 +205,131 @@ static void	test_strlen(void)
 		strlen("Hi 42 Porto"));
 	check_size("strlen long", ft_strlen("0123456789abcdefghijkl"),
 		strlen("0123456789abcdefghijkl"));
+}
+
+static void	test_strchr(void)
+{
+	char	buf[] = "hello world";
+
+	printf("\n===================== ft_strchr ======================\n");
+	check_ptr("found at start", ft_strchr(buf, 'h'), strchr(buf, 'h'));
+	check_ptr("first of two", ft_strchr(buf, 'l'), strchr(buf, 'l'));
+	check_ptr("found at end", ft_strchr(buf, 'd'), strchr(buf, 'd'));
+	check_ptr("not found", ft_strchr(buf, 'z'), strchr(buf, 'z'));
+	check_ptr("searching for nul", ft_strchr(buf, 0), strchr(buf, 0));
+	check_ptr("empty string", ft_strchr("", 'a'), strchr("", 'a'));
+	check_ptr("c above 255", ft_strchr(buf, 'h' + 256),
+		strchr(buf, 'h' + 256));
+}
+
+static void	test_strrchr(void)
+{
+	char	buf[] = "hello world";
+
+	printf("\n==================== ft_strrchr ======================\n");
+	check_ptr("last of two", ft_strrchr(buf, 'l'), strrchr(buf, 'l'));
+	check_ptr("only one", ft_strrchr(buf, 'h'), strrchr(buf, 'h'));
+	check_ptr("found at end", ft_strrchr(buf, 'd'), strrchr(buf, 'd'));
+	check_ptr("not found", ft_strrchr(buf, 'z'), strrchr(buf, 'z'));
+	check_ptr("searching for nul", ft_strrchr(buf, 0), strrchr(buf, 0));
+	check_ptr("empty string", ft_strrchr("", 'a'), strrchr("", 'a'));
+}
+
+static void	test_strncmp(void)
+{
+	printf("\n==================== ft_strncmp ======================\n");
+	check_sign("equal strings", ft_strncmp("abcde", "abcde", 5),
+		strncmp("abcde", "abcde", 5));
+	check_sign("first smaller", ft_strncmp("hello", "help", 5),
+		strncmp("hello", "help", 5));
+	check_sign("first bigger", ft_strncmp("help", "hello", 5),
+		strncmp("help", "hello", 5));
+	check_sign("diff beyond n", ft_strncmp("helloX", "helloY", 5),
+		strncmp("helloX", "helloY", 5));
+	check_sign("n = 0", ft_strncmp("abc", "xyz", 0),
+		strncmp("abc", "xyz", 0));
+	check_sign("one is prefix", ft_strncmp("abc", "abcde", 5),
+		strncmp("abc", "abcde", 5));
+	check_sign("n way past the end", ft_strncmp("abc", "abc", 100),
+		strncmp("abc", "abc", 100));
+	check_sign("both empty", ft_strncmp("", "", 5), strncmp("", "", 5));
+	check_sign("unsigned compare", ft_strncmp("\200", "\0", 1),
+		strncmp("\200", "\0", 1));
+}
+
+static void	test_strlcpy(void)
+{
+	char	dst[20];
+	size_t	ret;
+
+	printf("\n==================== ft_strlcpy ======================\n");
+	memset(dst, 'X', 19);
+	dst[19] = '\0';
+	ret = ft_strlcpy(dst, "hello", 20);
+	check_size("fits, return", ret, 5);
+	check_str("fits, dest", dst, "hello");
+	ret = ft_strlcpy(dst, "hello", 3);
+	check_size("truncates, return", ret, 5);
+	check_str("truncates, dest", dst, "he");
+	ret = ft_strlcpy(dst, "hello", 1);
+	check_size("size 1, return", ret, 5);
+	check_str("size 1, dest empty", dst, "");
+	memset(dst, 'X', 19);
+	dst[19] = '\0';
+	ret = ft_strlcpy(dst, "hello", 0);
+	check_size("size 0, return", ret, 5);
+	check_str("size 0, dest untouched", dst, "XXXXXXXXXXXXXXXXXXX");
+	ret = ft_strlcpy(dst, "", 20);
+	check_size("empty src, return", ret, 0);
+	check_str("empty src, dest", dst, "");
+}
+
+static void	test_strlcat(void)
+{
+	char	dst[20];
+	size_t	ret;
+
+	printf("\n==================== ft_strlcat ======================\n");
+	ft_strlcpy(dst, "hello", 20);
+	ret = ft_strlcat(dst, "wor", 20);
+	check_size("fits, return", ret, 8);
+	check_str("fits, dest", dst, "hellowor");
+	ft_strlcpy(dst, "hello", 20);
+	ret = ft_strlcat(dst, "world", 8);
+	check_size("truncates, return", ret, 10);
+	check_str("truncates, dest", dst, "hellowo");
+	ft_strlcpy(dst, "hello", 20);
+	ret = ft_strlcat(dst, "world", 3);
+	check_size("size below dst len", ret, 8);
+	check_str("dest untouched", dst, "hello");
+	ft_strlcpy(dst, "hello", 20);
+	ret = ft_strlcat(dst, "world", 0);
+	check_size("size 0, return", ret, 5);
+	check_str("size 0, dest untouched", dst, "hello");
+	ft_strlcpy(dst, "hello", 20);
+	ret = ft_strlcat(dst, "", 20);
+	check_size("empty src, return", ret, 5);
+	check_str("empty src, dest", dst, "hello");
+}
+
+static void	test_strnstr(void)
+{
+	char	big[] = "hello world";
+	char	rep[] = "aaabc";
+
+	printf("\n==================== ft_strnstr ======================\n");
+	check_ptr("found", ft_strnstr(big, "world", 11), big + 6);
+	check_ptr("len cuts the match", ft_strnstr(big, "world", 10), NULL);
+	check_ptr("needle at start", ft_strnstr(big, "hello", 11), big);
+	check_ptr("needle at end", ft_strnstr(big, "d", 11), big + 10);
+	check_ptr("needle with space", ft_strnstr(big, "o w", 11), big + 4);
+	check_ptr("empty needle", ft_strnstr(big, "", 11), big);
+	check_ptr("empty needle, len 0", ft_strnstr(big, "", 0), big);
+	check_ptr("not found", ft_strnstr(big, "zzz", 11), NULL);
+	check_ptr("len 0", ft_strnstr(big, "hello", 0), NULL);
+	check_ptr("needle longer", ft_strnstr(big, "hello world!!", 11), NULL);
+	check_ptr("slides past partials", ft_strnstr(rep, "abc", 5), rep + 2);
+	check_ptr("empty haystack", ft_strnstr("", "abc", 5), NULL);
 }
 
 /* =========================== part 1: memory ============================== */
@@ -364,6 +505,26 @@ static void	test_memcmp(void)
 	check_sign("200 against 100", ft_memcmp(a, b, 5), memcmp(a, b, 5));
 }
 
+static void	test_atoi(void)
+{
+	printf("\n====================== ft_atoi =======================\n");
+	check_num("simple", ft_atoi("42"), atoi("42"));
+	check_num("leading spaces", ft_atoi("   42"), atoi("   42"));
+	check_num("negative", ft_atoi("-42"), atoi("-42"));
+	check_num("explicit plus", ft_atoi("+42"), atoi("+42"));
+	check_num("spaces and sign", ft_atoi("  \t\n -42"), atoi("  \t\n -42"));
+	check_num("double sign", ft_atoi("--42"), atoi("--42"));
+	check_num("sign then sign", ft_atoi("+-42"), atoi("+-42"));
+	check_num("trailing junk", ft_atoi("42abc"), atoi("42abc"));
+	check_num("leading junk", ft_atoi("abc42"), atoi("abc42"));
+	check_num("empty string", ft_atoi(""), atoi(""));
+	check_num("only spaces", ft_atoi("   "), atoi("   "));
+	check_num("zero", ft_atoi("0"), atoi("0"));
+	check_num("negative zero", ft_atoi("-0"), atoi("-0"));
+	check_num("INT_MAX", ft_atoi("2147483647"), atoi("2147483647"));
+	check_num("INT_MIN", ft_atoi("-2147483648"), atoi("-2147483648"));
+}
+
 /* ================================ main =================================== */
 
 int	main(void)
@@ -376,12 +537,19 @@ int	main(void)
 	test_toupper();
 	test_tolower();
 	test_strlen();
+	test_strchr();
+	test_strrchr();
+	test_strncmp();
+	test_strlcpy();
+	test_strlcat();
+	test_strnstr();
 	test_memset();
 	test_bzero();
 	test_memcpy();
 	test_memmove();
 	test_memchr();
 	test_memcmp();
+	test_atoi();
 	printf("\n");
 	return (0);
 }
