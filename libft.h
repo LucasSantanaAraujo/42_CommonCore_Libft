@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 01:46:45 by marvin            #+#    #+#             */
-/*   Updated: 2026/11/11 23:19:12 by marvin           ###   ########.fr       */
+/*   Updated: 2026/11/12 00:15:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ char			*ft_strrchr(const char *s, int c);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strnstr(const char *big, const char *little, size_t len);
 int				ft_atoi(const char *nptr);
+void			*ft_calloc(size_t nmemb, size_t size);
+char			*ft_strdup(const char *s);
 void			ft_lstadd_front(t_list **lst, t_list *new);
 unsigned int	ft_lstsize(t_list *lst);
 t_list			*ft_lstlast(t_list *lst);

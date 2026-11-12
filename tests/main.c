@@ -6,11 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/08 01:47:04 by marvin            #+#    #+#             */
-/*   Updated: 2026/11/11 23:38:27 by marvin           ###   ########.fr       */
+/*   Updated: 2026/11/12 00:17:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include "../libft.h"
@@ -525,6 +526,51 @@ static void	test_atoi(void)
 	check_num("INT_MIN", ft_atoi("-2147483648"), atoi("-2147483648"));
 }
 
+static void	test_calloc(void)
+{
+	char	*p;
+	char	zeros[10];
+
+	printf("\n===================== ft_calloc ======================\n");
+	memset(zeros, 0, 10);
+	p = ft_calloc(10, sizeof(char));
+	check_bool("returns a pointer", p != NULL, 1);
+	check_mem("memory is zeroed", p, zeros, 10);
+	free(p);
+	p = ft_calloc(0, 0);
+	check_bool("(0,0) is not NULL", p != NULL, 1);
+	free(p);
+	p = ft_calloc(0, 10);
+	check_bool("(0,10) is not NULL", p != NULL, 1);
+	free(p);
+	p = ft_calloc(10, 0);
+	check_bool("(10,0) is not NULL", p != NULL, 1);
+	free(p);
+	p = ft_calloc((size_t)-1, 2);
+	check_ptr("overflow returns NULL", p, NULL);
+}
+
+static void	test_strdup(void)
+{
+	char	src[] = "hello";
+	char	*mine;
+
+	printf("\n===================== ft_strdup ======================\n");
+	mine = ft_strdup(src);
+	check_str("copies content", mine, "hello");
+	check_size("copy length", ft_strlen(mine), 5);
+	check_bool("is a new block", mine != src, 1);
+	free(mine);
+	mine = ft_strdup("");
+	check_str("empty string", mine, "");
+	check_size("empty length", ft_strlen(mine), 0);
+	free(mine);
+	mine = ft_strdup("a longer string with spaces");
+	check_str("longer string", mine, "a longer string with spaces");
+	check_size("longer length", ft_strlen(mine), 27);
+	free(mine);
+}
+
 /* ================================ main =================================== */
 
 int	main(void)
@@ -550,6 +596,8 @@ int	main(void)
 	test_memchr();
 	test_memcmp();
 	test_atoi();
+	test_calloc();
+	test_strdup();
 	printf("\n");
 	return (0);
 }
